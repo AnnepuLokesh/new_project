@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answers Summary</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Answers Summary</h1>
+
+        {% if question_answer_mapping %}
+            <ul class="list-group">
+                {% for item in question_answer_mapping %}
+                    <li class="list-group-item">
+                        <p><strong>Q{{ loop.index }}:</strong> {{ item['question'] }}</p>
+                        <p><strong>Your Answer:</strong> {{ item['answer'] }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="/feedback">Get Feedback</a>
+        {% else %}
+            <p>No answers submitted.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

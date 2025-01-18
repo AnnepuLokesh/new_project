@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Category Prediction</title>
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #013a5c;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        ul.list-unstyled {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid white;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 10px; /* Adds space between each question */
+        }
+
+        /* Style for bold skills and projects */
+        .bold-skill, .bold-project {
+            font-weight: bold;
+            color: #4CAF50; /* Green color for skills and projects */
+        }
+
+        /* Button styling */
+        .bottom-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .bottom-btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Resume Screening AI-based System</h1>
+        <p>This system supports TXT and PDF files to be uploaded, and it performs the following tasks:</p>
+        <ul>
+            <li>Resume Categorization</li>
+            <li>Resume Job Recommendation</li>
+            <li>Resume Parsing (Information Extraction)</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Upload Your Resume</h2>
+        <form action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf, .txt" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if message %}
+        <p class="text-center"><strong>{{ message }}</strong></p>
+        {% endif %}
+
+        {% if predicted_category %}
+        <hr>
+        <h2>Results</h2>
+        <p class="section-title">Category</p>
+        <p>{{ predicted_category }}</p>
+
+        <p class="section-title">Recommended Job</p>
+        <p>{{ recommended_job }}</p>
+
+        <hr>
+        <h3>Extracted Information</h3>
+
+        <p class="section-title">Name</p>
+        <p>{{ name }}</p>
+
+        <p class="section-title">Phone</p>
+        <p>{{ phone }}</p>
+
+        <p class="section-title">Email</p>
+        <p>{{ email }}</p>
+
+        {% if extracted_skills %}
+        <p class="section-title">Skills</p>
+        <ul class="list-unstyled">
+            {% for skill in extracted_skills %}
+            <li>&bull; <span class="bold-skill">{{ skill }}</span></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No skills found...</p>
+        {% endif %}
+
+        {% if extracted_education %}
+        <p class="section-title">Education</p>
+        <ul class="list-unstyled">
+            {% for edu in extracted_education %}
+            <li>&bull; {{ edu }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No education found...</p>
+        {% endif %}
+
+        {% if extracted_projects %}
+        <p class="section-title">Projects</p>
+        <ul class="list-unstyled">
+            {% for project in extracted_projects %}
+            <li>&bull; <span class="bold-project">{{ project }}</span></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No projects found...</p>
+        {% endif %}
+        {% endif %}
+
+        <hr>
+        <hr>
+        <h3>Generated Interview Questions</h3>
+        {% if questions %}
+    <ul class="list-unstyled">
+        {% for question in questions %}
+            <li><strong>Q{{ loop.index }}:</strong> {{ question }}</li>
+        {% endfor %}
+    </ul>
+        {% else %}
+            <p>No questions generated...</p>
+        {% endif %}
+    </div>
+
+    <!-- Button at the bottom -->
+    <a href="/answers" class="bottom-btn">Go to Answers</a>
+    <a href="/write_answers" class="bottom-btn">Write Answers</a>
+</body>
+
+</html>

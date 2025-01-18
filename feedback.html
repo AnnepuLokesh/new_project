@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            color: #555;
+        }
+        .resources ul {
+            list-style-type: square;
+            margin-left: 40px;
+        }
+        .resources ul li a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .resources ul li a:hover {
+            text-decoration: underline;
+        }
+        .feedback-section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback Summary</h1>
+
+        <div class="feedback-section">
+            <h2>Overall Performance</h2>
+            <p>{{ feedback.overall_performance }}</p>
+        </div>
+
+        <div class="feedback-section">
+            <h2>Strengths</h2>
+            <p>{{ feedback.strengths }}</p>
+        </div>
+
+        <div class="feedback-section">
+            <h2>Areas for Improvement</h2>
+            <p>{{ feedback.areas_for_improvement }}</p>
+        </div>
+
+        <div class="feedback-section resources">
+            <h2>Resources for Learning</h2>
+            {% if feedback.resources_for_learning %}
+                <ul>
+                    {% for resource in feedback.resources_for_learning.split('\n') %}
+                        <li><a href="{{ resource }}" target="_blank">{{ resource }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No resources available.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>
